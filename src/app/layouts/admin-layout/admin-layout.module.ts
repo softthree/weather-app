@@ -15,6 +15,7 @@ import { TypographyComponent } from "../../pages/typography/typography.component
 // import { RtlComponent } from "../../pages/rtl/rtl.component";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { GooglePlacesDirective } from 'src/app/place-search/google-places.directive';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     RouterModule.forChild(AdminLayoutRoutes),
     FormsModule,
     HttpClientModule,
-    NgbModule,
+    NgbModule
+
   ],
   declarations: [
     DashboardComponent,
@@ -32,7 +34,11 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     TypographyComponent,
     NotificationsComponent,
     MapComponent,
+    GooglePlacesDirective
     // RtlComponent
+  ],
+  exports: [
+    GooglePlacesDirective
   ]
 })
 export class AdminLayoutModule {}
