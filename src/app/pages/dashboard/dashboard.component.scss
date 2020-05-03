@@ -1,0 +1,37 @@
+.main-header {
+  padding: 15px;
+  .row {
+    .header-search {
+      form {
+        input {
+          width: 100%;
+          background-color: transparent;
+          border: 1px solid #fd5d93;
+          border-radius: 5px;
+          color: white;
+          padding: 5px 15px;
+          &:active,
+          &:hover,
+          &:focus {
+            outline: none;
+          }
+        }
+      }
+    }
+    .tags {
+      .btn-group {
+        margin-top: -3px;
+        .tag {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+.map {
+  iframe {
+    width: 100%;
+    height: calc(100% - 28px);
+  }
+}

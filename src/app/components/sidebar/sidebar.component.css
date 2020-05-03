@@ -1,0 +1,9 @@
+.logo {
+  padding: 2rem 0.7rem;
+}
+.logo .logo-mini .logo-img {
+  width: 180px;
+}
+.logo .logo-mini .logo-img img {
+  width: 100%;
+}
