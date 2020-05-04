@@ -1,5 +1,4 @@
 <div class="content">
-  
   <div class="row">
     <div class="col-12">
       <div class="card card-chart">
@@ -92,47 +91,60 @@
   </div>
 
   <div class="row">
-      <div class="col-12">
-        <div class="card card-chart card-text">
-          <div class="card-body">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat,
-              quidem quibusdam. Expedita enim pariatur fugiat mollitia veritatis
-              facilis cumque possimus blanditiis? Aliquam quia quod pariatur modi
-              sit quas doloremque quis?
+    <div class="col-12">
+      <div class="card card-chart card-text">
+        <div class="card-body">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat,
+            quidem quibusdam. Expedita enim pariatur fugiat mollitia veritatis
+            facilis cumque possimus blanditiis? Aliquam quia quod pariatur modi
+            sit quas doloremque quis?
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card card-chart card-info">
+        <div class="card-body">
+          <div class="info">
+            <p class="key">Valid For Points</p>
+            <p class="value">
+              April-June 2020 Forecast Valid at
+              {{ foreCastData?.longitude | number: "1.1" }} and
+              {{ foreCastData?.latitude | number: "1.1" }}
             </p>
           </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="card card-chart card-info">
-          <div class="card-body">
-            <div class="info">
-              <p class="value">{{foreCastData?.longitude | number:'1.1'}} , {{foreCastData?.latitude | number:'1.1'}}</p>
-              <p class="key">Valid For Points</p>
-            </div>
-            <div class="info" *ngIf = "foreCastData">
-              <p class="value">{{foreCastData["forecast category"]}}</p>
-              <p class="key">Forecast Category</p>
-            </div>
-            <div class="info" *ngIf = "foreCastData">
-              <p class="value">{{foreCastData["upper bound"] | number:'1.1'}}</p>
-              <p class="key">Upper Bound</p>
-            </div>
-            <div class="info" *ngIf = "foreCastData">
-              <p class="value">{{foreCastData["lower bound"] | number:'1.1'}}</p>
-              <p class="key">Lower Bound</p>
-            </div>
-            <!-- <div class="info" *ngIf = "foreCastData">
-              <p class="value">{{foreCastData["long term average"] | number:'1.1'}}</p>
-              <p class="key">Climatological Average</p>
-            </div> -->
+          <div class="info" *ngIf="foreCastData">
+            <p class="key">Forecast Category</p>
+            <!-- <p class="value">{{ foreCastData["forecast category"] }}</p> -->
+            <p class="value">Much Below Normal Convective Wind Activity</p>
+          </div>
+          <div class="info" *ngIf="foreCastData">
+            <p class="key">Bounds</p>
+            <p class="value">
+              {{ foreCastData["lower bound"] | number: "1.1" }} to
+              {{ foreCastData["upper bound"] | number: "1.1" }} tornado reports
+              expected within 400 miles of the point
+            </p>
+          </div>
+          <!-- <div class="info" *ngIf="foreCastData">
+            <p class="key">Lower Bound</p>
+            <p class="value">
+              {{ foreCastData["lower bound"] | number: "1.1" }}
+            </p>
+          </div> -->
+          <div class="info" *ngIf="foreCastData">
+            <p class="key">Climatological Average</p>
+            <!-- <p class="value">{{foreCastData["long term average"] | number:'1.1'}}</p> -->
+            <p class="value">10 reports within 400 miles of the point</p>
+            <p></p>
           </div>
         </div>
       </div>
     </div>
+  </div>
   <div class="row">
     <div class="col-md-3">
       <div class="card card-tasks">
@@ -167,7 +179,14 @@
                   <td>
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="" (change)="onCheckboxChange('conushailseasonalresults')"/>
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          value=""
+                          (change)="
+                            onCheckboxChange('conushailseasonalresults')
+                          "
+                        />
 
                         <span class="form-check-sign">
                           <span class="check"> </span>
@@ -183,7 +202,16 @@
                   <td>
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="" (change)="onCheckboxChange('conusconvectivewindseasonalresults')"/>
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          value=""
+                          (change)="
+                            onCheckboxChange(
+                              'conusconvectivewindseasonalresults'
+                            )
+                          "
+                        />
 
                         <span class="form-check-sign">
                           <span class="check"> </span>
@@ -199,7 +227,12 @@
                   <td>
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="" (change)="onCheckboxChange('conustorseasonalresults')"/>
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          value=""
+                          (change)="onCheckboxChange('conustorseasonalresults')"
+                        />
 
                         <span class="form-check-sign">
                           <span class="check"> </span>
@@ -266,5 +299,4 @@
       <div class="map" id="map" class="match-parent"></div>
     </div>
   </div>
-  
 </div>

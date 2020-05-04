@@ -92,14 +92,17 @@
     display: flex;
     justify-content: space-around;
     .info {
+      width: 25%;
       p {
         text-align: center;
         &.value {
-          font-size: 22px;
-          font-weight: 600;
+          font-size: 14px;
+          font-weight: 500;
+          padding: 0 14px;
         }
         &.key {
-          font-size: 14px;
+          font-size: 18px;
+          font-weight: 600;
         }
       }
     }
