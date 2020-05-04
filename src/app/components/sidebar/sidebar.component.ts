@@ -12,28 +12,29 @@ export const ROUTES: RouteInfo[] = [
     path: "/dashboard",
     title: "Weather Analytics",
     rtlTitle: "لوحة القيادة",
-    icon: "icon-chart-pie-36",
-    class: ""
+    icon: "cloud",
+    class: "",
   },
   {
     path: "/icons",
     title: "Energy Analytics",
     rtlTitle: "الرموز",
-    icon: "icon-bulb-63",
-    class: ""
+    icon: "emoji_objects",
+    class: "",
   },
   {
     path: "/maps",
     title: "Agriculture Analytics",
     rtlTitle: "خرائط",
-    icon: "icon-pin",
-    class: "" }
+    icon: "eco",
+    class: "",
+  },
 ];
 
 @Component({
   selector: "app-sidebar",
   templateUrl: "./sidebar.component.html",
-  styleUrls: ["./sidebar.component.css"]
+  styleUrls: ["./sidebar.component.css"],
 })
 export class SidebarComponent implements OnInit {
   menuItems: any[];
@@ -41,7 +42,7 @@ export class SidebarComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
+    this.menuItems = ROUTES.filter((menuItem) => menuItem);
   }
   isMobileMenu() {
     if (window.innerWidth > 991) {

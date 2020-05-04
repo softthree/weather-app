@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import Chart from "chart.js";
-import * as mapboxgl from 'mapbox-gl';
+import * as mapboxgl from "mapbox-gl";
 
 @Component({
   selector: "app-dashboard",
@@ -18,19 +18,20 @@ export class DashboardComponent implements OnInit {
   public clicked2: boolean = false;
 
   map: mapboxgl.Map;
-  style = 'mapbox://styles/mapbox/streets-v11';
+  style = "mapbox://styles/mapbox/streets-v11";
   lat = 38.9071923;
   lng = -77.0368707;
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     // mapboxgl.accessToken = 'pk.eyJ1Ijoid2VhdGhlcmRlZXAiLCJhIjoiY2s3d2g5d2d0MDB5djNmb3lnOWU1NHdoMCJ9.Uifvvc54HT-meJPiRtBfXw';
     this.map = new mapboxgl.Map({
-      accessToken: 'pk.eyJ1Ijoid2VhdGhlcmRlZXAiLCJhIjoiY2s3d2g5d2d0MDB5djNmb3lnOWU1NHdoMCJ9.Uifvvc54HT-meJPiRtBfXw',
-      container: 'map',
+      accessToken:
+        "pk.eyJ1Ijoid2VhdGhlcmRlZXAiLCJhIjoiY2s3d2g5d2d0MDB5djNmb3lnOWU1NHdoMCJ9.Uifvvc54HT-meJPiRtBfXw",
+      container: "map",
       style: this.style,
       zoom: 13,
-      center: [this.lng, this.lat]
+      center: [this.lng, this.lat],
     });
     // Add map controls
     this.map.addControl(new mapboxgl.NavigationControl());
@@ -510,7 +511,6 @@ export class DashboardComponent implements OnInit {
       },
       options: gradientBarChartConfiguration,
     });
-
   }
   public updateOptions() {
     this.myChartData.data.datasets[0].data = this.data;
@@ -518,7 +518,7 @@ export class DashboardComponent implements OnInit {
   }
 
   public setAddress(location) {
-    console.log(location)
-    this.map.setCenter([location.lng, location.lat])
+    console.log(location);
+    this.map.setCenter([location.lng, location.lat]);
   }
 }

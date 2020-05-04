@@ -16,7 +16,7 @@
 }
 .sidebar,
 .off-canvas-sidebar {
-  @include linear-gradient($primary-states, $primary);
+  background-color: $card-black-background;
   height: calc(100vh - 40px);
   width: 230px;
   position: fixed;
@@ -146,7 +146,7 @@
       }
 
       > a {
-        margin: 10px 15px 0;
+        margin-top: 10px;
         border-radius: $btn-round-radius;
         color: $white;
         display: block;
@@ -154,13 +154,9 @@
         position: relative;
         text-transform: uppercase;
         cursor: pointer;
-        font-size: $font-size-xs;
+        font-size: 14px;
         padding: 10px 8px;
         line-height: $line-height-lg;
-      }
-
-      &:first-child > a {
-        margin: 0 15px;
       }
 
       &:hover:not(.active) > a,
@@ -182,17 +178,6 @@
         i,
         p {
           color: white;
-        }
-
-        &:before {
-          content: " ";
-          position: absolute;
-          height: 6px;
-          width: 6px;
-          top: 22px;
-          left: -4px;
-          background: $white;
-          border-radius: 50%;
         }
       }
 
@@ -241,16 +226,19 @@
       margin: 0;
       line-height: 30px;
       position: relative;
-      display: block;
+      display: inline;
       height: auto;
       white-space: nowrap;
+      vertical-align: super;
+      margin-left: 10px;
+      font-weight: 600;
       @extend .animation-transition-general;
     }
 
     i {
       font-size: 20px;
       float: left;
-      margin-right: 12px;
+      margin-right: 4px;
       line-height: 30px;
       width: 34px;
       text-align: center;
