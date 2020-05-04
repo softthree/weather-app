@@ -16,14 +16,14 @@ export const ROUTES: RouteInfo[] = [
     class: "",
   },
   {
-    path: "/icons",
+    path: "/energy",
     title: "Energy Analytics",
     rtlTitle: "الرموز",
     icon: "emoji_objects",
     class: "",
   },
   {
-    path: "/maps",
+    path: "/agricluture",
     title: "Agriculture Analytics",
     rtlTitle: "خرائط",
     icon: "eco",

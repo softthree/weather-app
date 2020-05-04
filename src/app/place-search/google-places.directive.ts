@@ -38,8 +38,8 @@ export class GooglePlacesDirective implements OnInit {
       } else if (item['types'].indexOf("postal_code") > -1) {
         location_obj['postal_code'] = item['short_name']
       }
-      location_obj['lat'] = places.geometry.location.lat();
-      location_obj['lng'] = places.geometry.location.lng();
+      location_obj['lat'] = places.geometry.location.lat().toFixed(1);
+      location_obj['lng'] = places.geometry.location.lng().toFixed(1);
       location_obj['value'] = this.element.value;
     }
     return location_obj;
