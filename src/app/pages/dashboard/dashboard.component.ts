@@ -29,9 +29,12 @@ export class DashboardComponent implements OnInit {
       accessToken: 'pk.eyJ1Ijoid2VhdGhlcmRlZXAiLCJhIjoiY2s3d2g5d2d0MDB5djNmb3lnOWU1NHdoMCJ9.Uifvvc54HT-meJPiRtBfXw',
       container: 'map',
       style: this.style,
-      zoom: 13,
+      zoom: 8,
       center: [this.lng, this.lat]
     });
+
+    // add source and layer for museums
+
     // Add map controls
     this.map.addControl(new mapboxgl.NavigationControl());
     var gradientChartOptionsConfigurationWithTooltipBlue: any = {
@@ -520,5 +523,9 @@ export class DashboardComponent implements OnInit {
   public setAddress(location) {
     console.log(location)
     this.map.setCenter([location.lng, location.lat])
+  }
+
+  onCheckboxChange(val) {
+    console.log(val)
   }
 }
