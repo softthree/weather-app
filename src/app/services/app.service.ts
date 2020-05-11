@@ -12,11 +12,9 @@ export class AppService {
 
   getToken() {
     var headers = new HttpHeaders({ "Authorization": "Basic " + btoa("weatherdeepapp:weatherdeepapp!@#$%") });
-
     const httpOptions = {
       headers: headers
     };
-
     return this.http.get(this.baseUrl + 'login', httpOptions)
   }
 
@@ -26,8 +24,6 @@ export class AppService {
       return encodeURIComponent(key) + '=' +
         encodeURIComponent(data[key]);
     }).join('&');
-    console.log(params)
-
     let httpOptions = {
       headers: headers
     };
@@ -40,6 +36,21 @@ export class AppService {
       return encodeURIComponent(key) + '=' +
         encodeURIComponent(data[key]);
     }).join('&');
+    let httpOptions = {
+      headers: headers
+    };
+    return this.http.get(this.baseUrl + type + '?' + params, httpOptions)
+  }
+
+  getCurvesData(data, type) {
+    console.log(data, type)
+    console.log(this.token)
+    let headers = new HttpHeaders({ "x-access-token": this.token });
+    let params = Object.keys(data).map(function (key) {
+      return encodeURIComponent(key) + '=' +
+        encodeURIComponent(data[key]);
+    }).join('&');
+
     let httpOptions = {
       headers: headers
     };
