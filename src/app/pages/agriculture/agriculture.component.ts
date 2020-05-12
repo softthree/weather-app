@@ -10,10 +10,10 @@ draggable?: boolean;
 }
 
 @Component({
-  selector: "app-map",
-  templateUrl: "map.component.html"
+  selector: "app-agriculture",
+  templateUrl: "agriculture.component.html"
 })
-export class MapComponent implements OnInit {
+export class AgricultureComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {

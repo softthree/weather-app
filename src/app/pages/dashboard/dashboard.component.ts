@@ -37,40 +37,41 @@ export class DashboardComponent implements OnInit {
   lng = -77.0;
   data1 = [];
   data2 = [];
-
-
+  inputLat;
+  inputLng;
+  threeMonths;
+  forecastCategory;
 
   constructor(private appService: AppService) {
     this.date = this.dateFormat(new Date);
     this.appService.getToken().subscribe((res: any) => {
       this.appService.token = res.token;
-      console.log(res)
       // Get data for tornado with the given lat lng and date
       let data = {
         date: this.date,
         longitude: this.lng,
         latitude: this.lat
       }
-      console.log(data)
       this.appService.getForecast(data, this.forecastType).subscribe((res: any) => {
         console.log(res)
         this.foreCastData = res
+        this.threeMonths = this.getThreeMonths();
+        this.forecastCategory = this.forecastCategoryFunc();
       })
 
       let obj = {
-        date: '2020-05-01',
+        date: this.date,
         longitude: this.lng,
         latitude: this.lat
       }
       this.appService.getCurvesData(obj, this.curveTypeValue + 'climo').subscribe((res: any) => {
         if (res.date) {
-          console.log(res)
           for (var i = 0; i < 100; i = i + 5) {
             let record = res['bin' + i];
             this.data1.push(record);
           }
           let obj = {
-            date: '2020-05-01',
+            date: this.date,
             longitude: this.lng,
             latitude: this.lat
           }
@@ -79,7 +80,6 @@ export class DashboardComponent implements OnInit {
               let record = res['bin' + i];
               this.data2.push(record);
             }
-            console.log(this.data1, this.data2)
             this.drawChart();
           })
         }
@@ -215,38 +215,38 @@ export class DashboardComponent implements OnInit {
   }
 
   public setAddress(location) {
-    console.log(location);
     this.map.setCenter([location.lng, location.lat]);
     this.lat = location.lat;
     this.lng = location.lng
+    this.inputLat = ''
+    this.inputLng = ''
     let data = {
       date: this.date,
       longitude: location.lng,
       latitude: location.lat
     }
-    console.log(data)
     this.appService.getForecast(data, this.forecastType).subscribe((res: any) => {
-      console.log(res)
       this.foreCastData = res
+      this.forecastCategory = this.forecastCategoryFunc();
+
     })
 
     // Map
     let obj = {
-      date: '2020-05-01',
+      date: this.date,
       longitude: this.lng,
       latitude: this.lat
     }
     this.data1 = [];
     this.data2 = [];
     this.appService.getCurvesData(obj, this.curveTypeValue + 'climo').subscribe((res: any) => {
-      console.log(res)
       if (res.date) {
         for (var i = 0; i < 100; i = i + 5) {
           let record = res['bin' + i];
           this.data1.push(record);
         }
         let obj = {
-          date: '2020-05-01',
+          date: this.date,
           longitude: this.lng,
           latitude: this.lat
         }
@@ -255,8 +255,6 @@ export class DashboardComponent implements OnInit {
             let record = res['bin' + i];
             this.data2.push(record);
           }
-          console.log(this.data1, this.data2)
-          console.log(this.data1, this.data2)
           this.chartData.datasets[0].data = this.data1;
           this.chartData.datasets[0].label = `${this.forecastDisplayValue} Losses (Climatology)`;
           this.chartData.datasets[1].data = this.data2;
@@ -275,7 +273,6 @@ export class DashboardComponent implements OnInit {
 
   onCheckboxChange(val) {
     let index = this.layers.findIndex(x => x == val)
-    console.log(index)
     if (this.layers.length > 0 && index != -1) {
       let visibility = this.map.getLayoutProperty(val, 'visibility');
       if (visibility === 'visible') {
@@ -285,14 +282,12 @@ export class DashboardComponent implements OnInit {
       }
     } else {
       this.layers.push(val)
-      console.log(val)
       // Get layer images
       let data = {
         date: this.date,
         filename: "jdpng"
       }
       this.appService.getFile(data, val).subscribe((res: any) => {
-        console.log(res.download_url)
         this.map.addSource(val, {
           type: 'image',
           url: res.download_url,
@@ -330,28 +325,28 @@ export class DashboardComponent implements OnInit {
       longitude: this.lng,
       latitude: this.lat
     }
-    console.log(data)
     this.appService.getForecast(data, type).subscribe((res: any) => {
       console.log(res)
       this.foreCastData = res
+      this.forecastCategory = this.forecastCategoryFunc();
+
     })
     // this.drawChart();
     this.data1 = [];
     this.data2 = [];
     let obj = {
-      date: '2020-05-01',
+      date: this.date,
       longitude: this.lng,
       latitude: this.lat
     }
     this.appService.getCurvesData(obj, this.curveTypeValue + 'climo').subscribe((res: any) => {
       if (res.date) {
-        console.log(res)
         for (var i = 0; i < 100; i = i + 5) {
           let record = res['bin' + i];
           this.data1.push(record);
         }
         let obj = {
-          date: '2020-05-01',
+          date: this.date,
           longitude: this.lng,
           latitude: this.lat
         }
@@ -360,7 +355,6 @@ export class DashboardComponent implements OnInit {
             let record = res['bin' + i];
             this.data2.push(record);
           }
-          console.log(this.data1, this.data2)
           this.chartData.datasets[0].data = this.data1;
           this.chartData.datasets[0].label = `${this.forecastDisplayValue} Losses (Climatology)`;
           this.chartData.datasets[1].data = this.data2;
@@ -381,20 +375,21 @@ export class DashboardComponent implements OnInit {
   }
 
   forecastCategoryFunc() {
+    console.log(this.foreCastData['forecast category'])
     switch (this.foreCastData['forecast category']) {
-      case 1.0:
+      case '1.0':
         return `Much Below Normal ${this.forecastDisplayValue} Activity Expected`
         break;
 
-      case 2.0:
+      case '2.0':
         return `Below Normal ${this.forecastDisplayValue} Activity Expected`
 
         break;
-      case 3.0:
+      case '3.0':
         return `Average Normal ${this.forecastDisplayValue} Activity Expected`
 
         break;
-      case 4.0:
+      case '4.0':
         return `Above Average Normal ${this.forecastDisplayValue} Activity Expected`
 
         break;
@@ -413,5 +408,108 @@ export class DashboardComponent implements OnInit {
     let nextMonth = new Date(future).getMonth()
     let nextMonthName = this.monthNames[nextMonth]
     return currentMonthName + ' - ' + nextMonthName + ' ' + now.getFullYear()
+  }
+
+  findForecast() {
+    if (this.inputLng && this.inputLat) {
+      this.lat = this.inputLat;
+      this.lng = this.inputLng;
+      this.map.setCenter([this.lng, this.lat]);
+      let data = {
+        date: this.date,
+        longitude: this.lng,
+        latitude: this.lat
+      }
+      this.appService.getForecast(data, this.forecastType).subscribe((res: any) => {
+        console.log(res)
+        this.foreCastData = res
+        this.forecastCategory = this.forecastCategoryFunc();
+
+      })
+
+      this.data1 = [];
+      this.data2 = [];
+
+      let obj = {
+        date: this.date,
+        longitude: this.lng,
+        latitude: this.lat
+      }
+      this.appService.getCurvesData(obj, this.curveTypeValue + 'climo').subscribe((res: any) => {
+        if (res.date) {
+          for (var i = 0; i < 100; i = i + 5) {
+            let record = res['bin' + i];
+            this.data1.push(record);
+          }
+          let obj = {
+            date: this.date,
+            longitude: this.lng,
+            latitude: this.lat
+          }
+          this.appService.getCurvesData(obj, this.curveTypeValue).subscribe((res: any) => {
+            for (var i = 0; i < 100; i = i + 5) {
+              let record = res['bin' + i];
+              this.data2.push(record);
+            }
+            this.chartData.datasets[0].data = this.data1;
+            this.chartData.datasets[0].label = `${this.forecastDisplayValue} Losses (Climatology)`;
+            this.chartData.datasets[1].data = this.data2;
+            this.chartData.datasets[1].label = `${this.forecastDisplayValue} Losses`;
+            this.myChart.update()
+          })
+        }
+      })
+    }
+  }
+
+  seasonChanged(e) {
+    if (e.target.value) {
+      this.threeMonths = e.target.options[e.target.selectedIndex].innerHTML;
+      this.date = e.target.value;
+      let data = {
+        date: this.date,
+        longitude: this.lng,
+        latitude: this.lat
+      }
+      this.appService.getForecast(data, this.forecastType).subscribe((res: any) => {
+        console.log(res)
+        this.foreCastData = res
+        this.forecastCategory = this.forecastCategoryFunc();
+
+      })
+
+      this.data1 = [];
+      this.data2 = [];
+
+      let obj = {
+        date: this.date,
+        longitude: this.lng,
+        latitude: this.lat
+      }
+      this.appService.getCurvesData(obj, this.curveTypeValue + 'climo').subscribe((res: any) => {
+        if (res.date) {
+          for (var i = 0; i < 100; i = i + 5) {
+            let record = res['bin' + i];
+            this.data1.push(record);
+          }
+          let obj = {
+            date: this.date,
+            longitude: this.lng,
+            latitude: this.lat
+          }
+          this.appService.getCurvesData(obj, this.curveTypeValue).subscribe((res: any) => {
+            for (var i = 0; i < 100; i = i + 5) {
+              let record = res['bin' + i];
+              this.data2.push(record);
+            }
+            this.chartData.datasets[0].data = this.data1;
+            this.chartData.datasets[0].label = `${this.forecastDisplayValue} Losses (Climatology)`;
+            this.chartData.datasets[1].data = this.data2;
+            this.chartData.datasets[1].label = `${this.forecastDisplayValue} Losses`;
+            this.myChart.update()
+          })
+        }
+      })
+    }
   }
 }

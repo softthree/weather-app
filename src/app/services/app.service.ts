@@ -43,7 +43,6 @@ export class AppService {
   }
 
   getCurvesData(data, type) {
-    console.log(data, type)
     console.log(this.token)
     let headers = new HttpHeaders({ "x-access-token": this.token });
     let params = Object.keys(data).map(function (key) {
