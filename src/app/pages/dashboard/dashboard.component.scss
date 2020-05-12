@@ -53,6 +53,19 @@
         &:last-child {
           padding-right: 10px;
         }
+        &.form-btn {
+          display: flex;
+          justify-content: space-between;
+          .button {
+            width: calc(100% - 13px);
+            .btn {
+              width: 100%;
+            }
+          }
+          .divider {
+            border-right: 1px solid white;
+          }
+        }
       }
     }
   }

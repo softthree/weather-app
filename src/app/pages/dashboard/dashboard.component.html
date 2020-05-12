@@ -5,7 +5,9 @@
     </div>
     <div class="col-6 tags">
       <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
-        <label class="btn btn-sm btn-danger btn-simple" (click)="
+        <label
+          class="btn btn-sm btn-danger btn-simple"
+          (click)="
             updateForecastType(
               'conustorseasonalresults',
               'Tornado',
@@ -14,7 +16,9 @@
             clicked = true;
             clicked1 = false;
             clicked2 = false
-          " [ngClass]="{ active: clicked === true }">
+          "
+          [ngClass]="{ active: clicked === true }"
+        >
           <input checked="checked" name="options" type="radio" />
 
           <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block tag">
@@ -24,7 +28,9 @@
             <i class="tim-icons icon-single-02"> </i>
           </span>
         </label>
-        <label class="btn btn-sm btn-danger btn-simple" (click)="
+        <label
+          class="btn btn-sm btn-danger btn-simple"
+          (click)="
             updateForecastType(
               'conusconvectivewindseasonalresults',
               'Convective Wind',
@@ -33,7 +39,9 @@
             clicked = false;
             clicked1 = true;
             clicked2 = false
-          " [ngClass]="{ active: clicked1 === true }">
+          "
+          [ngClass]="{ active: clicked1 === true }"
+        >
           <input class="d-none d-sm-none" name="options1" type="radio" />
 
           <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block tag">
@@ -43,7 +51,9 @@
             <i class="tim-icons icon-gift-2"> </i>
           </span>
         </label>
-        <label class="btn btn-sm btn-danger btn-simple" (click)="
+        <label
+          class="btn btn-sm btn-danger btn-simple"
+          (click)="
             updateForecastType(
               'conushailseasonalresults',
               'Hail',
@@ -51,8 +61,10 @@
             );
             clicked = false;
             clicked1 = false;
-            clicked2 = true;
-          " [ngClass]="{ active: clicked2 === true }">
+            clicked2 = true
+          "
+          [ngClass]="{ active: clicked2 === true }"
+        >
           <input class="d-none d-sm-none" name="options2" type="radio" />
 
           <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block tag">
@@ -72,20 +84,45 @@
           <form>
             <div class="row">
               <div class="col-sm-4">
-                <input type="text" google-place (onSelect)="setAddress($event)"
-                  placeholder="Washington D.C., DC, USA" />
+                <input
+                  type="text"
+                  google-place
+                  (onSelect)="setAddress($event)"
+                  placeholder="Washington D.C., DC, USA"
+                />
               </div>
               <div class="col-sm-2">
-                <input type="text" placeholder="Latitude e.g: 38.9" name="inputLat" [(ngModel)]="inputLat" />
+                <input
+                  type="text"
+                  placeholder="Latitude e.g: 38.9"
+                  name="inputLat"
+                  [(ngModel)]="inputLat"
+                />
               </div>
               <div class="col-sm-2">
-                <input type="text" placeholder="Longitude e.g: -77.0" name="inputLng" [(ngModel)]="inputLng" />
+                <input
+                  type="text"
+                  placeholder="Longitude e.g: -77.0"
+                  name="inputLng"
+                  [(ngModel)]="inputLng"
+                />
+              </div>
+              <div class="col-sm-2 form-btn">
+                <div class="button">
+                  <button
+                    class="btn btn-sm btn-success"
+                    (click)="findForecast()"
+                  >
+                    Find
+                  </button>
+                </div>
+                <div class="divider"></div>
               </div>
               <div class="col-sm-2">
-                <button class="btn btn-sm btn-success" (click)="findForecast()">Find</button>
-              </div>
-              <div class="col-sm-2">
-                <select placeholder="Select Season" (change)="seasonChanged($event)">
+                <select
+                  placeholder="Select Season"
+                  (change)="seasonChanged($event)"
+                >
                   <option value="2020-04-01">Apr - Jun 2020</option>
                   <option selected value="2020-05-01">May - July 2020</option>
                   <option value="2020-06-01">Jun - Aug 2020</option>
@@ -166,9 +203,14 @@
                   <td>
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="" (change)="
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          value=""
+                          (change)="
                             onCheckboxChange('conushailseasonalresults')
-                          " />
+                          "
+                        />
 
                         <span class="form-check-sign">
                           <span class="check"> </span>
@@ -184,11 +226,16 @@
                   <td>
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="" (change)="
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          value=""
+                          (change)="
                             onCheckboxChange(
                               'conusconvectivewindseasonalresults'
                             )
-                          " />
+                          "
+                        />
 
                         <span class="form-check-sign">
                           <span class="check"> </span>
@@ -204,8 +251,12 @@
                   <td>
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value=""
-                          (change)="onCheckboxChange('conustorseasonalresults')" />
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          value=""
+                          (change)="onCheckboxChange('conustorseasonalresults')"
+                        />
 
                         <span class="form-check-sign">
                           <span class="check"> </span>
