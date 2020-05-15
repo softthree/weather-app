@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
 
 
   map: mapboxgl.Map;
-  style = "mapbox://styles/mapbox/streets-v11";
+  style = "mapbox://styles/weatherdeep/cka6d3s670frr1is6nxmndbfd";
   lat = 38.9;
   lng = -77.0;
   data1 = [];
@@ -94,10 +94,14 @@ export class DashboardComponent implements OnInit {
         "pk.eyJ1Ijoid2VhdGhlcmRlZXAiLCJhIjoiY2s3d2g5d2d0MDB5djNmb3lnOWU1NHdoMCJ9.Uifvvc54HT-meJPiRtBfXw",
       container: "map",
       style: this.style,
-      zoom: 6,
+      zoom: 5,
       center: [this.lng, this.lat]
     });
 
+  }
+
+  ngOnDestroy() {
+    this.map.remove()
   }
 
   drawChart() {
@@ -363,6 +367,7 @@ export class DashboardComponent implements OnInit {
         })
       }
     })
+
   }
 
   dateFormat(date) {
@@ -510,6 +515,41 @@ export class DashboardComponent implements OnInit {
           })
         }
       })
+      for (let i = 0; i < this.layers.length; i++) {
+        this.map.removeLayer(this.layers[i])
+        this.map.removeSource(this.layers[i])
+        // Get layer images
+        let data = {
+          date: this.date,
+          filename: "jdpng"
+        }
+        this.appService.getFile(data, this.layers[i]).subscribe((res: any) => {
+          this.map.addSource(this.layers[i], {
+            type: 'image',
+            url: res.download_url,
+            coordinates: [
+              [-134.0, 49.0],
+              [-64.0, 49.0],
+              [-64.0, 22.0],
+              [-134.0, 22.0]
+            ]
+          });
+          this.map.addLayer({
+            'id': this.layers[i],
+            'type': 'raster',
+            'source': this.layers[i],
+            'layout': {
+              // make layer visible by default
+              'visibility': 'visible'
+            },
+            'paint': {
+              'raster-opacity': 0.65
+            },
+            'source-layer': this.layers[i]
+          });
+
+        })
+      }
     }
   }
 }

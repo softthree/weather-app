@@ -1,62 +1,80 @@
-<!-- <div class="content">
+<div class="content">
     <div class="row top">
         <div class="col-6">
-            <h3 class="main-title">Seasonal Severe Weather Analytics</h3>
+            <h3 class="main-title">Monthly Energy Analytics</h3>
         </div>
         <div class="col-6 tags">
             <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
                 <label class="btn btn-sm btn-danger btn-simple" (click)="
-              updateForecastType(
-                'conustorseasonalresults',
-                'Tornado',
-                'conustorlossesseasonal'
-              );
+              updateEnergyType(
+                'conuscddresults',
+                'Cooling Degree Days');
               clicked = true;
               clicked1 = false;
-              clicked2 = false
+              clicked2 = false;
+              clicked3 = false;
             " [ngClass]="{ active: clicked === true }">
                     <input checked="checked" name="options" type="radio" />
 
                     <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block tag">
-                        Tornado
+                        Cooling Degree Days
                     </span>
                     <span class="d-block d-sm-none">
                         <i class="tim-icons icon-single-02"> </i>
                     </span>
                 </label>
                 <label class="btn btn-sm btn-danger btn-simple" (click)="
-              updateForecastType(
-                'conusconvectivewindseasonalresults',
-                'Convective Wind',
-                'conuswindlossesseasonal'
+              updateEnergyType(
+                'conushddresults',
+                'Heating Degree Days'
               );
               clicked = false;
               clicked1 = true;
-              clicked2 = false
+              clicked2 = false;
+              clicked3 = false
             " [ngClass]="{ active: clicked1 === true }">
                     <input class="d-none d-sm-none" name="options" type="radio" />
 
                     <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block tag">
-                        Wind
+                        Heating Degree Days
                     </span>
                     <span class="d-block d-sm-none">
                         <i class="tim-icons icon-gift-2"> </i>
                     </span>
                 </label>
                 <label class="btn btn-sm btn-danger btn-simple" (click)="
-              updateForecastType(
-                'conushailseasonalresults',
-                'Hail',
-                'conushaillossesseasonal'
+              updateEnergyType(
+                'conustempresults',
+                'Temperature'
               );
               clicked = false;
               clicked1 = false;
-              clicked2 = true
+              clicked2 = true;
+              clicked3 = false
             " [ngClass]="{ active: clicked2 === true }">
                     <input class="d-none" name="options" type="radio" />
 
                     <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block tag">
-                        Hail
+                        Temperature
+                    </span>
+                    <span class="d-block d-sm-none">
+                        <i class="tim-icons icon-tap-02"> </i>
+                    </span>
+                </label>
+                <label class="btn btn-sm btn-danger btn-simple" (click)="
+              updateEnergyType(
+                'conuswindresults',
+                'Surface Wind'
+              );
+              clicked = false;
+              clicked1 = false;
+              clicked2 = false;
+              clicked3 = true
+            " [ngClass]="{ active: clicked3 === true }">
+                    <input class="d-none" name="options" type="radio" />
+
+                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block tag">
+                        Surface Wind
                     </span>
                     <span class="d-block d-sm-none">
                         <i class="tim-icons icon-tap-02"> </i>
@@ -75,17 +93,27 @@
                                 <input type="text" google-place (onSelect)="setAddress($event)"
                                     placeholder="Washington D.C., DC, USA" />
                             </div>
-                            <div class="col-sm-3">
-                                <input type="text" placeholder="Latitude" />
-                            </div>
-                            <div class="col-sm-3">
-                                <input type="text" placeholder="Longitude" />
+                            <div class="col-sm-2">
+                                <input type="text" placeholder="Latitude e.g: 38.9" name="inputLat"
+                                    [(ngModel)]="inputLat" />
                             </div>
                             <div class="col-sm-2">
-                                <select placeholder="Select Season">
-                                    <option>Apr - Jun 2020</option>
-                                    <option selected>May - July 2020</option>
-                                    <option>Jun - Aug 2020</option>
+                                <input type="text" placeholder="Longitude e.g: -77.0" name="inputLng"
+                                    [(ngModel)]="inputLng" />
+                            </div>
+                            <div class="col-sm-2 form-btn">
+                                <div class="button">
+                                    <button class="btn btn-sm btn-success" (click)="findEnergeyForecast()">
+                                        Find
+                                    </button>
+                                </div>
+                                <div class="divider"></div>
+                            </div>
+                            <div class="col-sm-2">
+                                <select placeholder="Select Season" (change)="seasonChanged($event)">
+                                    <option value="2020-04-01">Apr 2020</option>
+                                    <option selected value="2020-05-01">May 2020</option>
+                                    <option value="2020-06-01">Jun 2020</option>
                                 </select>
                             </div>
                         </div>
@@ -112,24 +140,24 @@
     <div class="row">
         <div class="col-12">
             <div class="card card-chart card-info">
-                <div class="card-body" *ngIf="foreCastData?.date">
+                <div class="card-body" *ngIf="energyData?.date">
                     <div class="info">
                         <p class="key">Valid For Points</p>
                         <p class="value">
-                            {{ getThreeMonths() }} Forecast Valid at
-                            {{ foreCastData?.longitude | number: "1.1" }}&deg;N and
-                            {{ foreCastData?.latitude | number: "1.1" }}&deg;W
+                            {{ month }} Forecast Valid at
+                            {{ energyData?.longitude | number: "1.1" }}&deg;N and
+                            {{ energyData?.latitude | number: "1.1" }}&deg;W
                         </p>
                     </div>
                     <div class="info">
                         <p class="key">Forecast Category</p>
-                        <p class="value">{{ forecastCategoryFunc() }}</p>
+                        <p class="value">{{ energyCategory }}</p>
                     </div>
                     <div class="info">
                         <p class="key">Bounds</p>
                         <p class="value">
-                            {{ foreCastData["lower bound"] | number: "1.1" }} to
-                            {{ foreCastData["upper bound"] | number: "1.1" }}
+                            {{ energyData["lower bound"] | number: "1.1" }} to
+                            {{ energyData["upper bound"] | number: "1.1" }}
                             {{ forecastDisplayValue }} reports expected within 400 miles of
                             the point
                         </p>
@@ -137,13 +165,13 @@
                     <div class="info">
                         <p class="key">Climatological Average</p>
                         <p class="value">
-                            {{ foreCastData["long term average"] }} reports within 400 miles
+                            {{ energyData["long term average"] | number: "1.1" }} reports within 400 miles
                             of the point
                         </p>
                         <p></p>
                     </div>
                 </div>
-                <div class="card-body" *ngIf="!foreCastData?.date">
+                <div class="card-body" *ngIf="!energyData?.date">
                     <p class="text-center">No Data For Those Coordinates</p>
                 </div>
             </div>
@@ -153,7 +181,7 @@
         <div class="col-md-3">
             <div class="card card-tasks">
                 <div class="card-header">
-                    <h6 class="title d-inline">Severe Weather Forecast Layer</h6>
+                    <h6 class="title d-inline">Energy Forecast Layer</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-full-width table-responsive">
@@ -164,7 +192,7 @@
                                         <div class="form-check">
                                             <label class="form-check-label">
                                                 <input class="form-check-input" type="checkbox" value="" (change)="
-                              onCheckboxChange('conushailseasonalresults')
+                              onCheckboxChange('conuscddresults')
                             " />
 
                                                 <span class="form-check-sign">
@@ -174,7 +202,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="title">Seasonal Hail Forecast</p>
+                                        <p class="title">Cooling Degree days</p>
                                     </td>
                                 </tr>
                                 <tr>
@@ -183,7 +211,7 @@
                                             <label class="form-check-label">
                                                 <input class="form-check-input" type="checkbox" value="" (change)="
                               onCheckboxChange(
-                                'conusconvectivewindseasonalresults'
+                                'conushddresults'
                               )
                             " />
 
@@ -194,7 +222,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="title">Seasonal Convective Wind Forecast</p>
+                                        <p class="title">Heating Degree Days</p>
                                     </td>
                                 </tr>
                                 <tr>
@@ -202,7 +230,7 @@
                                         <div class="form-check">
                                             <label class="form-check-label">
                                                 <input class="form-check-input" type="checkbox" value=""
-                                                    (change)="onCheckboxChange('conustorseasonalresults')" />
+                                                    (change)="onCheckboxChange('conustempresults')" />
 
                                                 <span class="form-check-sign">
                                                     <span class="check"> </span>
@@ -211,7 +239,24 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="title">Seasonal Tornado Forecast</p>
+                                        <p class="title">Temperature</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    (change)="onCheckboxChange('conuswindresults')" />
+
+                                                <span class="form-check-sign">
+                                                    <span class="check"> </span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="title">Surface wind</p>
                                     </td>
                                 </tr>
                             </tbody>
@@ -263,26 +308,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-9 map">
-            <div class="map" id="map" class="match-parent"></div>
+        <div class="col-md-9 maps">
+            <div class="maps" id="maps" class="match-parent"></div>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-12">
-            <div class="card card-chart">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-sm-6 text-left">
-                            <h3 class="card-title">Loss Curves</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="chart-area"><canvas id="chartLineRed"> </canvas></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
-<h4>Under Development</h4>
+</div>

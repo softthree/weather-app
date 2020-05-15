@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class AppService {
 
-  baseUrl = 'http://weatherdeep.io:5000/'
+  baseUrl = 'https://weatherdeep.io:5000/'
   token;
   constructor(private http: HttpClient) { }
 
