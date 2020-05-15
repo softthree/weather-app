@@ -46,6 +46,9 @@
           &:focus {
             outline: none;
           }
+          option {
+            color: black;
+          }
         }
         &:first-child {
           padding-left: 10px;
